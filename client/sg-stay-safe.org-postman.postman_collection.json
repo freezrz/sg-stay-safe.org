@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "f93f8d97-6ba7-42f4-b153-78d7388d8c69",
+		"name": "sg-stay-safe.org-postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:5000/checkin",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"anonymous_id\": \"gheohgeg\",\n    \"place_id\": \"shopee\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/checkin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"checkin"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
