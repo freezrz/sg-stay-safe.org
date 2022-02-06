@@ -17,7 +17,7 @@ type RedisConf struct {
 }
 
 var config = RedisConf{
-	Endpoint: "checkin-stats-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379",
+	Endpoint: "checkin-service-stats-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379",
 	Db:       0,
 	Password: "",
 }

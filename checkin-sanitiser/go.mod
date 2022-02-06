@@ -1,4 +1,4 @@
-module sg-stay-safe.org/sanitise-checkin
+module sg-stay-safe.org/checkin-sanitiser
 
 go 1.15
 

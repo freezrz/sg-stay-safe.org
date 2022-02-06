@@ -18,7 +18,7 @@ type CheckInEvent struct {
 }
 
 func Handler(ctx context.Context, event CheckInEvent) (string, error) {
-	fmt.Println("checkin event sanitise handler invoked")
+	fmt.Println("checkin-service event sanitise handler invoked")
 	if event.AnonymousId == "" || event.PlaceId == "" {
 		return "unable to process your request", errors.New("invalid request")
 	}
