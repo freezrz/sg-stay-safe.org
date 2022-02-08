@@ -17,6 +17,7 @@ type Database struct {
 	Protocol string
 }
 
+// TODO: move credentials to AWS env variables
 var RestaurantDb = Database{
 	Host:     "sg-stay-safe.ciavucegfgwf.ap-southeast-1.rds.amazonaws.com",
 	Port:     "3306",
@@ -59,7 +60,7 @@ func RetrieveById(id int) *Restaurant {
 		log.Panic(err.Error())
 	}
 
-	q := fmt.Sprintf(`SELECT id, name, address FROM spot WHERE id=%d limit 1;`,
+	q := fmt.Sprintf(`SELECT id, name, address FROM site-management WHERE id=%d limit 1;`,
 		id)
 	log.Println(q)
 	r := db.QueryRow(q)

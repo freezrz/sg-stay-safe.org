@@ -3,16 +3,16 @@ package main
 import (
 	"log"
 	"net/http"
-	"sg-stay-safe.org/spot/pkg"
+	"sg-stay-safe.org/site-management/pkg"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	log.Println("spot service...")
+	log.Println("site-management service...")
 	router := gin.Default()
-	router.GET("/spot/:id", getRestaurantById)
+	router.GET("/site-management/:id", getRestaurantById)
 
 	router.Run(":5000")
 }
