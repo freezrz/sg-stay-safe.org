@@ -54,6 +54,27 @@ func (r *Redis) Set(key string, value interface{}, ttl int) error {
 	return nil
 }
 
+func (r *Redis) Del(key string) error {
+	defer func() {
+		_ = r.Client.Close()
+	}()
+
+	iter := r.Client.Scan(0, key, 0).Iterator()
+	log.Printf("del: %v", key)
+	for iter.Next() {
+		err := r.Client.Del(iter.Val()).Err()
+		if err != nil {
+			log.Println(err.Error())
+			return err
+		}
+	}
+	if err := iter.Err(); err != nil {
+		log.Println(err.Error())
+		return err
+	}
+	return nil
+}
+
 func (r *Redis) Close() error {
 	err := r.Client.Close()
 	if err != nil {

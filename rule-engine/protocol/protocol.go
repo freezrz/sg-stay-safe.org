@@ -10,17 +10,19 @@ type VerifyRulesForCheckInResponse struct {
 	Msg  string
 }
 
-type BanShopRequest struct {
-	SiteId string `json:"site_id"`
+type BanSiteRequest struct {
+	SiteId    string `json:"site_id"`
+	ShouldBan bool   `json:"should_ban"`
 }
 
-type BanShopResponse struct {
+type BanSiteResponse struct {
 	Code int
 	Msg  string
 }
 
 type BanUserRequest struct {
 	AnonymousId string `json:"anonymous_id"`
+	ShouldBan   bool   `json:"should_ban"`
 }
 
 type BanUserResponse struct {
