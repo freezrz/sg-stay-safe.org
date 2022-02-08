@@ -10,24 +10,12 @@ type Redis struct {
 	Client *redis.Client
 }
 
-type RedisConf struct {
-	Endpoint string
-	Db       int
-	Password string
-}
-
-var config = RedisConf{
-	Endpoint: "checkin-service-stats-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379",
-	Db:       0,
-	Password: "",
-}
-
-func New() *Redis {
-	log.Printf("Connecting to redis: %s/%d", config.Endpoint, config.Db)
+func New(endpoint string) *Redis {
+	log.Printf("Connecting to redis: %s/%d", endpoint, 0)
 	redisClient := &Redis{redis.NewClient(&redis.Options{
-		Addr:         config.Endpoint,
-		Password:     config.Password,
-		DB:           config.Db,
+		Addr:         endpoint,
+		Password:     "",
+		DB:           0,
 		ReadTimeout:  10 * time.Second,
 		DialTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
