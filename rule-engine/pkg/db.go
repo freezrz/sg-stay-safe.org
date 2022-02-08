@@ -23,7 +23,7 @@ var RestaurantDb = Database{
 	Port:     "3306",
 	Database: "restaurant_info",
 	User:     "admin",
-	Password: "whosyourdaddy",
+	Password: "Tf2pbO26Bc6lqh7AU5jX",
 	DbDriver: "mysql",
 	Protocol: "tcp",
 }
