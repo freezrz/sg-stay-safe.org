@@ -7,6 +7,7 @@ bin/
 
 # all built binaries
 bin/*
+**/*bin*
 
 # golang vendor files
 vendor/
