@@ -3,6 +3,7 @@ package cache
 import (
 	"github.com/go-redis/redis"
 	"log"
+	"sg-stay-safe.org/checkin/config"
 	"time"
 )
 
@@ -52,7 +53,7 @@ func (r *Redis) Incr(key string) error {
 	log.Printf("Incr Key:%s", key)
 	val := r.Client.Incr(key).Val()
 	if val == 1 {
-		r.Client.Expire(key, time.Minute*30)
+		r.Client.Expire(key, time.Minute*config.CacheDuration)
 	}
 	return nil
 }
