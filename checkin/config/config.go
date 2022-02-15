@@ -4,6 +4,11 @@ const (
 	Region        = "SG"
 	CacheDuration = 30 // min
 
+	AWSForwardPort = "5000"
+	AWSRegion      = "ap-southeast-1"
+
+	RecordCheckinLambda = "record_checkin"
+
 	BanSiteCache = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
 	BanUserCache = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
 

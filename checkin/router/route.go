@@ -2,12 +2,14 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	lambdaService "github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+	"sg-stay-safe.org/checkin/config"
 	"sg-stay-safe.org/checkin/protocol"
 	"time"
 )
@@ -17,7 +19,7 @@ func main() {
 	router := gin.Default()
 	router.POST("/", checkIn)
 
-	router.Run(":5000")
+	router.Run(fmt.Sprintf(":%s", config.AWSForwardPort))
 }
 
 func checkIn(c *gin.Context) {
@@ -43,7 +45,7 @@ func record(event protocol.CheckInEvent) error {
 		SharedConfigState: session.SharedConfigEnable,
 	}))
 
-	client := lambdaService.New(sess, &aws.Config{Region: aws.String("ap-southeast-1")})
+	client := lambdaService.New(sess, &aws.Config{Region: aws.String(config.AWSRegion)})
 
 	request := protocol.CheckInEvent{AnonymousId: event.AnonymousId, SiteId: event.SiteId}
 
@@ -53,7 +55,7 @@ func record(event protocol.CheckInEvent) error {
 		return err
 	}
 
-	result, err := client.Invoke(&lambdaService.InvokeInput{FunctionName: aws.String("record_checkin"), Payload: payload})
+	result, err := client.Invoke(&lambdaService.InvokeInput{FunctionName: aws.String(config.RecordCheckinLambda), Payload: payload})
 	if err != nil {
 		log.Println(err.Error())
 		return err
