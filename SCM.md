@@ -8,6 +8,9 @@ Elasticache:
 * without any DR, backup, or advanced features avoiding unnecessary billing
 * shut it down if you are not around the laptop cause it is very costly
 
+Elastic Beanstalk:
+* aws-elasticbeanstalk-ec2-role (so it can invoke lambda)
+
 Lambda:
 * for all lambda, please choose [lambda-vpc-role](https://console.aws.amazon.com/iamv2/home?#/roles/details/lambda-vpc-role?section=permissions) as Role when created if it needs to access other resources 
     * fyi only, [Create the execution role](https://docs.aws.amazon.com/lambda/latest/dg/services-elasticache-tutorial.html)
