@@ -37,4 +37,10 @@ const (
 	CodeSanitiseError         = 41001
 	CodeProduceEventError     = 42001
 	CodeRecordCacheEventError = 43001
+
+	CodeBanUserUpdateCacheError   = 44001
+	CodeUnBanUserUpdateCacheError = 44002
+
+	CodeBanSiteUpdateCacheError   = 45001
+	CodeUnBanSiteUpdateCacheError = 45002
 )
