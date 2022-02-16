@@ -11,8 +11,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
-	"sg-stay-safe.org/checkin/config"
-	"sg-stay-safe.org/checkin/protocol"
+	"sg-stay-safe.org/config"
+	"sg-stay-safe.org/protocol"
 	"time"
 )
 

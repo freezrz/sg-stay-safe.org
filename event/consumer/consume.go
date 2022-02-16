@@ -1,11 +1,10 @@
 package main
 
 import (
-	"sg-stay-safe.org/event/config"
-	"sg-stay-safe.org/event/pkg"
+	"sg-stay-safe.org/config"
+	"sg-stay-safe.org/pkg/kafka"
 )
 
-// ProcessEvent function Using AWS Lambda computed event
 func ProcessEvent() {
 	consumer := kafka.New()
 	consumer.Topic = config.CheckinEventKafkaTopic

@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"github.com/aws/aws-lambda-go/lambda"
 	"log"
-	"sg-stay-safe.org/event/config"
-	"sg-stay-safe.org/event/pkg"
-	"sg-stay-safe.org/event/protocol"
+	"sg-stay-safe.org/config"
+	"sg-stay-safe.org/pkg/kafka"
+	"sg-stay-safe.org/protocol"
 )
 
 // ProcessEvent function Using AWS Lambda computed event

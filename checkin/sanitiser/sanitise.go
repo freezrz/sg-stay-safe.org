@@ -4,8 +4,8 @@ import (
 	"context"
 	"github.com/aws/aws-lambda-go/lambda"
 	"log"
-	"sg-stay-safe.org/checkin/config"
-	"sg-stay-safe.org/checkin/protocol"
+	"sg-stay-safe.org/config"
+	"sg-stay-safe.org/protocol"
 )
 
 func main() {

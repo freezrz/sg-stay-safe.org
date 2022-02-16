@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"github.com/aws/aws-lambda-go/lambda"
 	"log"
-	"sg-stay-safe.org/checkin/config"
-	"sg-stay-safe.org/checkin/pkg/cache"
-	convert "sg-stay-safe.org/checkin/pkg/time"
-	"sg-stay-safe.org/checkin/protocol"
+	"sg-stay-safe.org/config"
+	"sg-stay-safe.org/pkg/cache"
+	convert "sg-stay-safe.org/pkg/time"
+	"sg-stay-safe.org/protocol"
 	"time"
 )
 
