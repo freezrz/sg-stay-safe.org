@@ -10,9 +10,9 @@ const (
 	SanitiseCheckinLambda   = "sanitise_checkin"
 	RecordCheckinLambda     = "record_checkin"
 	ProduceCheckinMsgLambda = "produce_checkin_event"
+	VerifyRulesLambda       = "verify_rules"
 
-	BanSiteCache = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
-	BanUserCache = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
+	BanCache = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
 
 	CheckInSiteCache = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
 
@@ -24,9 +24,6 @@ const (
 	CheckinEventKafkaZooKeeper = "z-1.checkin-msk-clust.xhf5xv.c2.kafka.ap-southeast-1.amazonaws.com:2181"
 	CheckinEventKafkaBootstrap = "b-1.checkin-msk-clust.xhf5xv.c2.kafka.ap-southeast-1.amazonaws.com:9092"
 	CheckinEventKafkaTopic     = "checkin-msk-topic"
-
-	CodeSiteBanned = 50001
-	CodeUserBanned = 50002
 
 	CodeOK                  = 0
 	CodeServerInternalError = 502
@@ -43,4 +40,9 @@ const (
 
 	CodeBanSiteUpdateCacheError   = 45001
 	CodeUnBanSiteUpdateCacheError = 45002
+
+	CodeUserIsBannedError    = 451001
+	CodeUserBannedCacheError = 451002
+	CodeSiteIsBannedError    = 452001
+	CodeSiteBannedCacheError = 452002
 )

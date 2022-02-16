@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"errors"
 	"github.com/go-redis/redis"
 	"log"
 	"sg-stay-safe.org/config"
@@ -12,7 +13,7 @@ type Redis struct {
 }
 
 func New(endpoint string) *Redis {
-	log.Printf("Connecting to redis: %s/%d", endpoint, 0)
+	log.Printf("connect to redis: %s/%d", endpoint, 0)
 	redisClient := &Redis{redis.NewClient(&redis.Options{
 		Addr:         endpoint,
 		Password:     "",
@@ -25,19 +26,19 @@ func New(endpoint string) *Redis {
 }
 
 func (r *Redis) Get(key string) (string, error) {
-	log.Printf("Get Key: %s", key)
-	value, err := r.Client.Get(key).Result()
-	if err != nil {
-		log.Println(err.Error())
-		return "", err
-	}
-	defer func() {
-		if err := recover(); err != nil {
-			log.Printf("Fail to Get Key: %s. Retrying", key)
-			r.Client.Get(key).Result()
+	log.Printf("get key: %s", key)
+	results := r.Client.Get(key)
+	if results != nil {
+		value, err := r.Client.Get(key).Result()
+		if err != nil {
+			log.Println(err.Error()) // Redis `GET key` command. It returns redis.Nil error when key does not exist
+			return "", nil
 		}
-	}()
-	return value, nil
+		log.Printf("value: %s", value)
+		return value, nil
+	} else {
+		return "", errors.New("fail to get cache")
+	}
 }
 
 func (r *Redis) Set(key string, value interface{}, ttl int) error {
