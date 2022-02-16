@@ -3,6 +3,7 @@ package kafka
 import (
 	"fmt"
 	"log"
+	"sg-stay-safe.org/event/config"
 	"time"
 
 	"github.com/Shopify/sarama"
@@ -31,10 +32,10 @@ func (k *Consumer) WithTopic(s string) *Consumer {
 
 func (k *Consumer) InitConsumer() {
 	if k.Topic == "" {
-		k.Topic = "checkin-msk-topic"
+		k.Topic = config.CheckinEventKafkaTopic
 	}
 	if k.ZookeeperConn == "" {
-		k.ZookeeperConn = "z-3.checkin-msk-clust.0srrl5.c2.kafka.ap-southeast-1.amazonaws.com:2181"
+		k.ZookeeperConn = config.CheckinEventKafkaZooKeeper
 	}
 	cgroup := "zgroup"
 	// consumer config

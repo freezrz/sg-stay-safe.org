@@ -15,3 +15,8 @@ type CheckInResponse struct {
 	Code int
 	Msg  string
 }
+
+type SanitiserResponse struct {
+	Code int
+	Msg  string
+}

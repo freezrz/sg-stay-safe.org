@@ -2,11 +2,9 @@ package main
 
 import (
 	"context"
-	"errors"
 	"github.com/aws/aws-lambda-go/lambda"
 	"log"
-	"net/http"
-	"sg-stay-safe.org/checkin/pkg/cache"
+	"sg-stay-safe.org/checkin/config"
 	"sg-stay-safe.org/checkin/protocol"
 )
 
@@ -15,15 +13,10 @@ func main() {
 }
 
 func Handler(ctx context.Context, event protocol.CheckInEvent) (protocol.GeneralResponse, error) {
+	// TODO: add more sanitise check
 	log.Println("sanitiser invoked")
 	if event.AnonymousId == "" || event.SiteId == "" {
-		return protocol.GeneralResponse{Code: http.StatusNotAcceptable, Msg: "not accepted"}, errors.New("not accepted")
+		return protocol.GeneralResponse{Code: config.CodeSanitiseError, Msg: "anonymous id and site id can't be empty"}, nil
 	}
-	redisCli := cache.New()
-	click, err := redisCli.Get(event.SiteId)
-	if err != nil {
-		log.Println(err.Error())
-	}
-	log.Println(click)
-	return protocol.GeneralResponse{Code: http.StatusOK, Msg: "sanitise ok..."}, nil
+	return protocol.GeneralResponse{Code: config.CodeOK, Msg: "sanitise ok..."}, nil
 }
