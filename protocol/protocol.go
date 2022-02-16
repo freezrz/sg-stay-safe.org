@@ -7,13 +7,13 @@ type CheckInEvent struct {
 }
 
 type GeneralResponse struct {
-	Code int
-	Msg  string
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
 }
 
 type CheckInResponse struct {
-	Code int
-	Msg  string
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
 }
 
 type BanSiteRequest struct {
