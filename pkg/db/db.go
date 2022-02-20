@@ -14,15 +14,6 @@ type Restaurant struct {
 	Address string
 }
 
-/*
-export DbUser="admin"
-export DbPassword="Tf2pbO26Bc6lqh7AU5jX"
-export DbName="sg_stay_safe_db"
-export DbHost="sg-stay-safe-db.ciavucegfgwf.ap-southeast-1.rds.amazonaws.com"
-export DbPort="3306"
-export DbProtocol="tcp"
-export DbDriver="mysql"
-*/
 func Connect() (db *sql.DB, err error) {
 	connString := fmt.Sprintf("%s:%s@%s(%s:%s)/%s",
 		os.Getenv("DbUser"),
