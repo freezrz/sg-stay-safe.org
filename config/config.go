@@ -6,8 +6,9 @@ const (
 
 	UserVisitSiteIntervalTimeDuration = 5 // min
 
-	AWSForwardPort = "5000"
-	AWSRegion      = "ap-southeast-1"
+	AWSForwardPort    = "5000"
+	AWSRegion         = "ap-southeast-1"
+	SystemEmailSender = "sg.stay.safe.org@gmail.com"
 
 	SanitiseCheckinLambda   = "sanitise_checkin"
 	AntiFraudCheckinLambda  = "anti_fraud_checkin"

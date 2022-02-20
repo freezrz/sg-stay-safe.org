@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	Sender = "sg.stay.safe.org@gmail.com"
+	Sender = config.SystemEmailSender
 
 	Subject = "sg-stay-safe: safe distance violation detected!!!"
 
@@ -34,7 +34,7 @@ func main() {
 
 func handler(ctx context.Context, event protocol.ViolationEmail) (protocol.GeneralResponse, error) {
 	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String("ap-southeast-1")},
+		Region: aws.String(config.AWSRegion)},
 	)
 
 	svc := ses.New(sess)
