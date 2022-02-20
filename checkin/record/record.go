@@ -19,20 +19,26 @@ func main() {
 func Handler(ctx context.Context, event protocol.CheckInEvent) (protocol.GeneralResponse, error) {
 	log.Println("record checkin invoked")
 
-	redisCli := cache.New(config.CheckInSiteCache)
+	checkinCli := cache.New(config.CheckInSiteCache)
 	t := convert.CleanTime(config.Region, time.Now().Unix(), time.Minute*config.CacheDuration)
-	if err := redisCli.Incr(fmt.Sprintf(config.SiteCountFormat, t, event.SiteId), config.CacheDuration); err != nil {
+	if err := checkinCli.Incr(fmt.Sprintf(config.SiteCountFormat, t, event.SiteId), config.CacheDuration); err != nil {
 		log.Println(err.Error())
 		return protocol.GeneralResponse{Code: config.CodeRecordCacheEventError, Msg: "record checkin fail..."}, err
 
 	}
 
-	redisCli = cache.New(config.AntiFraudCache)
+	antiFraudCli := cache.New(config.AntiFraudCache)
 	t = convert.CleanTime(config.Region, time.Now().Unix(), time.Minute*config.UserVisitSiteIntervalTimeDuration)
 	// if 1, means the user visits this site in 5mins
-	if err := redisCli.Set(fmt.Sprintf(config.UserVisitShopHistoryFormat, event.AnonymousId, event.SiteId), "1", config.UserVisitSiteIntervalTimeDuration); err != nil {
+	if err := antiFraudCli.Set(fmt.Sprintf(config.UserVisitSiteHistoryFormat, event.AnonymousId, event.SiteId), "1", config.UserVisitSiteIntervalTimeDuration); err != nil {
 		log.Println(err.Error())
 		return protocol.GeneralResponse{Code: config.CodeRecordUserVisitSiteEventError, Msg: "record checkin fail..."}, err
+	}
+
+	banCli := cache.New(config.BanCache)
+	if err := banCli.Incr(fmt.Sprintf(config.User24HoursCheckinCountFormat, event.AnonymousId), 24*60); err != nil { // 24hours
+		log.Println(err.Error())
+		return protocol.GeneralResponse{Code: config.CodeIncrUser24hrsCheckinError, Msg: "increase user 24hrs checkin number fail..."}, err
 	}
 
 	return protocol.GeneralResponse{Code: config.CodeOK, Msg: "record checkin ok..."}, nil

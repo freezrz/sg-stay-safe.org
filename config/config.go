@@ -23,11 +23,13 @@ const (
 	BanSiteFormat = "ban-site-%s"
 	BanUserFormat = "ban-user-%s"
 
-	RulePrefix = "rule-"
-	RuleFormat = RulePrefix + "%s"
+	RulePrefix          = "rule-"
+	RuleFormat          = RulePrefix + "%s"
+	RuleMaxDailyCheckin = RulePrefix + "MAX_DAILY_CHECKIN"
 
-	SiteCountFormat            = "site-%d-%s"
-	UserVisitShopHistoryFormat = "user-%s-site-%s"
+	SiteCountFormat               = "site-%d-%s"
+	UserVisitSiteHistoryFormat    = "user-%s-site-%s"
+	User24HoursCheckinCountFormat = "user-24hrs-%s"
 
 	CheckinEventKafkaZooKeeper = "z-1.checkin-msk-clust.xhf5xv.c2.kafka.ap-southeast-1.amazonaws.com:2181"
 	CheckinEventKafkaBootstrap = "b-1.checkin-msk-clust.xhf5xv.c2.kafka.ap-southeast-1.amazonaws.com:9092"
@@ -51,8 +53,11 @@ const (
 	CodeBanSiteUpdateCacheError   = 45001
 	CodeUnBanSiteUpdateCacheError = 45002
 
-	CodeUserIsBannedError    = 451001
-	CodeUserBannedCacheError = 451002
-	CodeSiteIsBannedError    = 452001
-	CodeSiteBannedCacheError = 452002
+	CodeUserIsBannedError              = 451001
+	CodeUserBannedCacheError           = 451002
+	CodeVerifyUserMaxCheckinCacheError = 451003
+	CodeUserExceedDailyMaxCheckinError = 451004
+	CodeIncrUser24hrsCheckinError      = 451005
+	CodeSiteIsBannedError              = 452001
+	CodeSiteBannedCacheError           = 452002
 )
