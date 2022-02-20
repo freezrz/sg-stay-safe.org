@@ -18,9 +18,13 @@ const (
 	BanCache         = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
 	CheckInSiteCache = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
 	AntiFraudCache   = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
+	RuleCache        = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
 
 	BanSiteFormat = "ban-site-%s"
 	BanUserFormat = "ban-user-%s"
+
+	RulePrefix = "rule-"
+	RuleFormat = RulePrefix + "%s"
 
 	SiteCountFormat            = "site-%d-%s"
 	UserVisitShopHistoryFormat = "user-%s-site-%s"

@@ -25,3 +25,10 @@ type BanUserRequest struct {
 	AnonymousId string `json:"anonymous_id"`
 	ShouldBan   bool   `json:"should_ban"`
 }
+
+type Rule struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	IsEnabled   bool   `json:"is_enabled"`
+	Value       int    `json:"value"`
+}

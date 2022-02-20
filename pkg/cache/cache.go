@@ -61,10 +61,6 @@ func (r *Redis) Incr(key string, ttl ...int) error {
 }
 
 func (r *Redis) Del(key string) error {
-	defer func() {
-		_ = r.Client.Close()
-	}()
-
 	iter := r.Client.Scan(0, key, 0).Iterator()
 	log.Printf("del: %v", key)
 	for iter.Next() {
