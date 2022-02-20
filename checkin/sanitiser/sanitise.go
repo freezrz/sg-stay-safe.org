@@ -13,7 +13,6 @@ func main() {
 }
 
 func Handler(ctx context.Context, event protocol.CheckInEvent) (protocol.GeneralResponse, error) {
-	// TODO: add more sanitise check
 	log.Println("sanitiser invoked")
 	if event.AnonymousId == "" || event.SiteId == "" {
 		return protocol.GeneralResponse{Code: config.CodeSanitiseError, Msg: "anonymous id and site id can't be empty"}, nil

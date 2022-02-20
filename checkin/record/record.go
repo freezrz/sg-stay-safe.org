@@ -21,10 +21,18 @@ func Handler(ctx context.Context, event protocol.CheckInEvent) (protocol.General
 
 	redisCli := cache.New(config.CheckInSiteCache)
 	t := convert.CleanTime(config.Region, time.Now().Unix(), time.Minute*config.CacheDuration)
-	err := redisCli.Incr(fmt.Sprintf(config.SiteCountFormat, t, event.SiteId))
-	if err != nil {
+	if err := redisCli.Incr(fmt.Sprintf(config.SiteCountFormat, t, event.SiteId), config.CacheDuration); err != nil {
 		log.Println(err.Error())
 		return protocol.GeneralResponse{Code: config.CodeRecordCacheEventError, Msg: "record checkin fail..."}, err
+
+	}
+
+	redisCli = cache.New(config.AntiFraudCache)
+	t = convert.CleanTime(config.Region, time.Now().Unix(), time.Minute*config.UserVisitSiteIntervalTimeDuration)
+	// if 1, means the user visits this site in 5mins
+	if err := redisCli.Set(fmt.Sprintf(config.UserVisitShopHistoryFormat, event.AnonymousId, event.SiteId), "1", config.UserVisitSiteIntervalTimeDuration); err != nil {
+		log.Println(err.Error())
+		return protocol.GeneralResponse{Code: config.CodeRecordUserVisitSiteEventError, Msg: "record checkin fail..."}, err
 	}
 
 	return protocol.GeneralResponse{Code: config.CodeOK, Msg: "record checkin ok..."}, nil

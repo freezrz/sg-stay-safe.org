@@ -57,6 +57,7 @@ func checkin(event protocol.CheckInEvent) (int, error) {
 
 	lambdaChain := []string{
 		config.SanitiseCheckinLambda,
+		config.AntiFraudCheckinLambda,
 		config.VerifyRulesLambda,
 		config.RecordCheckinLambda,
 		config.ProduceCheckinMsgLambda,
