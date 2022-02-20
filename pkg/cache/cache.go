@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/go-redis/redis"
 	"log"
-	"sg-stay-safe.org/config"
 	"time"
 )
 
@@ -50,11 +49,13 @@ func (r *Redis) Set(key string, value interface{}, ttl int) error {
 	return nil
 }
 
-func (r *Redis) Incr(key string) error {
+func (r *Redis) Incr(key string, ttl ...int) error {
 	log.Printf("Incr Key:%s", key)
 	val := r.Client.Incr(key).Val()
 	if val == 1 {
-		r.Client.Expire(key, time.Minute*config.CacheDuration)
+		if len(ttl) == 1 {
+			r.Client.Expire(key, time.Minute*time.Duration(ttl[0]))
+		}
 	}
 	return nil
 }
