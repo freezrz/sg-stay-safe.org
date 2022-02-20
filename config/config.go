@@ -60,4 +60,6 @@ const (
 	CodeIncrUser24hrsCheckinError      = 451005
 	CodeSiteIsBannedError              = 452001
 	CodeSiteBannedCacheError           = 452002
+
+	CodeNotificationSendEmailError = 500001
 )

@@ -32,3 +32,19 @@ type Rule struct {
 	IsEnabled   bool   `json:"is_enabled"`
 	Value       int    `json:"value"`
 }
+
+type ViolationEmail struct {
+	Recipient   string `json:"recipient"`
+	AnonymousId string `json:"anonymous_id"`
+	Site        Site   `json:"site"`
+}
+
+type Site struct {
+	Name        string `json:"name"`
+	SiteId      string `json:"site_id"`
+	Address     string `json:"address"`
+	PostalCode  string `json:"postal_code"`
+	Description string `json:"description"`
+	Capacity    string `json:"capacity"`
+	ShouldBan   bool   `json:"should_ban"`
+}
