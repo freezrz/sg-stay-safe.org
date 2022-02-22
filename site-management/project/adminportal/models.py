@@ -7,12 +7,26 @@ class Rule(models.Model):
     is_enabled = models.BooleanField()
     value = models.IntegerField()
 
+class Region(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=200)
 
 class Site(models.Model):
     name = models.CharField(max_length=200)
     site_id = models.CharField(max_length=50)
+    owner = models.CharField(max_length=50)
+    phone = models.CharField(max_length=50)
+    email = models.CharField(max_length=50)
     address = models.CharField(max_length=200)
     postal_code = models.CharField(max_length=10)
     description = models.CharField(max_length=200)
     capacity = models.IntegerField()
     should_ban = models.BooleanField()
+    region = models.ForeignKey(Region, on_delete=models.DO_NOTHING, default=None, blank=True)
+
+class SafeAmbassador(models.Model):
+    name = models.CharField(max_length=200)
+    phone = models.CharField(max_length=50)
+    email = models.CharField(max_length=50)
+    region = models.ForeignKey(Region, on_delete=models.DO_NOTHING, default=None, blank=True)
+    description = models.CharField(max_length=200)
