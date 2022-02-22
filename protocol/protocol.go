@@ -11,6 +11,11 @@ type GeneralResponse struct {
 	Msg  string `json:"msg"`
 }
 
+type ViolationEvent struct {
+	CheckInEvent    CheckInEvent
+	GeneralResponse GeneralResponse
+}
+
 type CheckInResponse struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`

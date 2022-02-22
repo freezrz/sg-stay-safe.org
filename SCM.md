@@ -17,6 +17,7 @@ Lambda:
 * add layer -> API Gateway -> HTTP API
     * choose VPC -> choose the default VPC, subnets (choose all), and security groups -> default | redis-dev
 * runtime setting -> x86_64, "Handler" should be the uploaded binary name
+* if need to send email, choose lambda-send-email role
 
 Amazon MSK (manageed streaming for Apache Kafka):
 * https://aws.amazon.com/blogs/compute/setting-up-aws-lambda-with-an-apache-kafka-cluster-within-a-vpc/

@@ -63,7 +63,8 @@ func checkin(event protocol.CheckInEvent) (int, error) {
 		config.ProduceCheckinMsgLambda,
 	}
 	for _, cmd := range lambdaChain {
-		if resp, err := CallLambdaFunc(client, cmd, payload); err != nil {
+		if resp, err := callLambdaFunc(client, cmd, payload); err != nil {
+			sendViolationMsg(client, event, resp) // if err, no need to return to customer
 			return resp.Code, err
 		}
 	}
@@ -71,7 +72,7 @@ func checkin(event protocol.CheckInEvent) (int, error) {
 	return config.CodeOK, nil
 }
 
-func CallLambdaFunc(client *lambdaService.Lambda, cmd string, payload []byte) (protocol.GeneralResponse, error) {
+func callLambdaFunc(client *lambdaService.Lambda, cmd string, payload []byte) (protocol.GeneralResponse, error) {
 	var resp protocol.GeneralResponse
 
 	result, err := client.Invoke(&lambdaService.InvokeInput{FunctionName: aws.String(cmd), Payload: payload})
@@ -110,6 +111,25 @@ func CallLambdaFunc(client *lambdaService.Lambda, cmd string, payload []byte) (p
 	}
 
 	return resp, nil
+}
+
+func sendViolationMsg(client *lambdaService.Lambda, checkin protocol.CheckInEvent, resp protocol.GeneralResponse) {
+	msg := protocol.ViolationEvent{
+		CheckInEvent:    checkin,
+		GeneralResponse: resp,
+	}
+	var cmd string
+	switch resp.Code {
+	case config.CodeSiteIsBannedError:
+		cmd = config.ProduceSiteViolationMsgLambda
+	case config.CodeUserIsBannedError, config.CodeUserExceedDailyMaxCheckinError:
+		cmd = config.ProduceUserViolationMsgLambda
+	default:
+		// cmd = "not-implemented"
+		return
+	}
+	payload, _ := json.Marshal(msg)
+	_, _ = callLambdaFunc(client, cmd, payload)
 }
 
 func serverError(c *gin.Context, errorCode int, err error) {
