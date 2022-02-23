@@ -21,7 +21,8 @@ const (
 
 	HtmlBody = "<h1>The platform just detected that below site/user is likely violating the safe distance!!! </h1>" +
 		"<p>Site Info: %s</p>" +
-		"<p>Anonymous Id: %s</p>"
+		"<p>Anonymous Id: %s</p>" +
+		"<p>Reason: %s</p>"
 
 	TextBody = "Site Info: %s. Anonymous Id: %s"
 
@@ -50,8 +51,7 @@ func handler(ctx context.Context, event protocol.ViolationEmail) (protocol.Gener
 
 	input := &ses.SendEmailInput{
 		Destination: &ses.Destination{
-			CcAddresses: []*string{
-			},
+			CcAddresses: []*string{},
 			ToAddresses: []*string{
 				aws.String(event.Recipient),
 			},
@@ -60,7 +60,7 @@ func handler(ctx context.Context, event protocol.ViolationEmail) (protocol.Gener
 			Body: &ses.Body{
 				Html: &ses.Content{
 					Charset: aws.String(CharSet),
-					Data:    aws.String(fmt.Sprintf(HtmlBody, string(siteInfo), event.AnonymousId)),
+					Data:    aws.String(fmt.Sprintf(HtmlBody, string(siteInfo), event.AnonymousId, event.Reason)),
 				},
 				Text: &ses.Content{
 					Charset: aws.String(CharSet),

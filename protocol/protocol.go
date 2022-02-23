@@ -42,14 +42,19 @@ type ViolationEmail struct {
 	Recipient   string `json:"recipient"`
 	AnonymousId string `json:"anonymous_id"`
 	Site        Site   `json:"site"`
+	Reason      string `json:"reason"`
 }
 
 type Site struct {
 	Name        string `json:"name"`
 	SiteId      string `json:"site_id"`
+	Owner       string `json:"owner"`
+	Phone       string `json:"phone"`
+	Email       string `json:"email"`
 	Address     string `json:"address"`
 	PostalCode  string `json:"postal_code"`
 	Description string `json:"description"`
 	Capacity    string `json:"capacity"`
 	ShouldBan   bool   `json:"should_ban"`
+	Region      string `json:"region"`
 }

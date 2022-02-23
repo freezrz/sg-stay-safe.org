@@ -13,6 +13,7 @@ class Rule(models.Model):
 class Region(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=200)
+    email = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
@@ -36,7 +37,6 @@ class Site(models.Model):
 class SafeAmbassador(models.Model):
     name = models.CharField(max_length=200)
     phone = models.CharField(max_length=50)
-    email = models.CharField(max_length=50)
     region = models.ForeignKey(Region, on_delete=models.DO_NOTHING, default=None, blank=True)
     description = models.CharField(max_length=200)
 

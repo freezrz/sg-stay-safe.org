@@ -2,9 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
-	"github.com/aws/aws-lambda-go/lambda/messages"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	lambdaService "github.com/aws/aws-sdk-go/service/lambda"
@@ -12,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"sg-stay-safe.org/config"
+	"sg-stay-safe.org/pkg/lambda"
 	"sg-stay-safe.org/protocol"
 	"time"
 )
@@ -63,54 +62,13 @@ func checkin(event protocol.CheckInEvent) (int, error) {
 		config.ProduceCheckinMsgLambda,
 	}
 	for _, cmd := range lambdaChain {
-		if resp, err := callLambdaFunc(client, cmd, payload); err != nil {
+		if resp, _, err := lambdaPkg.CallLambdaFunc(client, cmd, payload); err != nil {
 			sendViolationMsg(client, event, resp) // if err, no need to return to customer
 			return resp.Code, err
 		}
 	}
 
 	return config.CodeOK, nil
-}
-
-func callLambdaFunc(client *lambdaService.Lambda, cmd string, payload []byte) (protocol.GeneralResponse, error) {
-	var resp protocol.GeneralResponse
-
-	result, err := client.Invoke(&lambdaService.InvokeInput{FunctionName: aws.String(cmd), Payload: payload})
-	if err != nil {
-		resp = protocol.GeneralResponse{
-			Code: config.CodeInvokeLambdaError,
-			Msg:  err.Error(),
-		}
-		return resp, err
-	}
-
-	log.Println("debug# payload: ", string(result.Payload))
-	if result.FunctionError != nil {
-		var invokeErr messages.InvokeResponse_Error
-		_ = json.Unmarshal(result.Payload, &invokeErr)
-		resp = protocol.GeneralResponse{
-			Code: config.CodeInvokeLambdaError,
-			Msg:  invokeErr.Message,
-		}
-		return resp, errors.New(resp.Msg)
-	}
-
-	err = json.Unmarshal(result.Payload, &resp)
-	if err != nil {
-		resp = protocol.GeneralResponse{
-			Code: config.CodeUnmarshalError,
-			Msg:  err.Error(),
-		}
-		log.Println(err.Error())
-		return resp, err
-	}
-	log.Println(fmt.Sprintf("debug# resp msg: %s, code: %d", resp.Msg, resp.Code))
-
-	if resp.Code != 0 {
-		return resp, errors.New(resp.Msg)
-	}
-
-	return resp, nil
 }
 
 func sendViolationMsg(client *lambdaService.Lambda, checkin protocol.CheckInEvent, resp protocol.GeneralResponse) {
@@ -129,7 +87,7 @@ func sendViolationMsg(client *lambdaService.Lambda, checkin protocol.CheckInEven
 		return
 	}
 	payload, _ := json.Marshal(msg)
-	_, _ = callLambdaFunc(client, cmd, payload)
+	_, _, _ = lambdaPkg.CallLambdaFunc(client, cmd, payload)
 }
 
 func serverError(c *gin.Context, errorCode int, err error) {
