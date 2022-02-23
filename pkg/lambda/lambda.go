@@ -37,7 +37,7 @@ func CallLambdaFunc(client *lambda.Lambda, cmd string, payload []byte) (protocol
 
 	err = json.Unmarshal(result.Payload, &resp)
 	if err != nil {
-		resp = protocol.GeneralResponse{
+		resp = protocol.GeneralResponse{ // TODO: for retrieving email lambda it will json: cannot unmarshal string into Go value of type protocol.GeneralResponse. We don't check this error for this lambda so can fix later
 			Code: config.CodeUnmarshalError,
 			Msg:  err.Error(),
 		}

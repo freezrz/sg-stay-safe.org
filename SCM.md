@@ -2,6 +2,11 @@ EC2:
 * create instance under Ubuntu 20
 * sudo apt-get update
 * sudo apt-get install redis
+* ubuntu@ip-172-31-29-7:~$ pwd
+  /home/ubuntu
+  ubuntu@ip-172-31-29-7:~$ ls ~/.aws/credentials 
+  /home/ubuntu/.aws/credentials
+  (for aws lambda invoke)
 
 Elasticache:
 * create cache under Redis
