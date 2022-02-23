@@ -9,3 +9,7 @@ python3 manage.py runserver
 
 deploy to local:
 http://127.0.0.1:8000/admin/
+
+cd /Users/huanglh/go/src/sg-stay-safe.org/admin-portal/project
+python3 manage.py makemigrations
+python3 manage.py migrate
