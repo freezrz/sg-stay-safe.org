@@ -28,7 +28,7 @@ func retrieve() (sites []protocol.Site) {
 		log.Panic(err.Error())
 	}
 
-	q := fmt.Sprintf(`SELECT site_id FROM adminportal_site WHERE should_ban=1;`) // TODO: optmise the query with pagination.
+	q := fmt.Sprintf(`SELECT site_id FROM adminportal_site WHERE should_ban=1;`) // TODO: optimise the query with pagination.
 	log.Println("debug: " + q)
 	rows, err := db.Query(q)
 	if err != nil {

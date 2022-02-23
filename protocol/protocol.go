@@ -58,3 +58,9 @@ type Site struct {
 	ShouldBan   bool   `json:"should_ban"`
 	Region      string `json:"region"`
 }
+
+type User struct {
+	AnonymousId string `json:"anonymous_id"`
+	Description string `json:"description"`
+	ShouldBan   bool   `json:"should_ban"`
+}

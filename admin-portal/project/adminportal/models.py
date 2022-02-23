@@ -42,3 +42,11 @@ class SafeAmbassador(models.Model):
 
     def __str__(self):
         return self.name
+
+class User(models.Model):
+    anonymous_id = models.CharField(max_length=50)
+    description = models.CharField(max_length=200)
+    should_ban = models.BooleanField()
+
+    def __str__(self):
+        return self.anonymous_id
