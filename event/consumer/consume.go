@@ -70,6 +70,10 @@ func SendEmail(event protocol.ViolationEvent) {
 		log.Println(err.Error())
 		return
 	}
-	email := string(bs)
-	log.Println(email)
+	json.Unmarshal(bs, &event.Region)
+	log.Println("debug: retrieved email: " + event.Region.Email)
+
+	payload, err = json.Marshal(event)
+	cmd = config.SendEmailLambda
+	_, _, _ = lambdaPkg.CallLambdaFunc(client, cmd, payload)
 }

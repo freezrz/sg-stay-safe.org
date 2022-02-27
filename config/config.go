@@ -18,6 +18,7 @@ const (
 	ProduceSiteViolationMsgLambda     = "produce_site_violation_event"
 	VerifyRulesLambda                 = "verify_rules"
 	RetrieveRegionEmailBySiteIdLambda = "retrieve_region_email_by_siteid_query_service"
+	SendEmailLambda                   = "send_email_notification"
 
 	BanCache         = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
 	CheckInSiteCache = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"

@@ -33,19 +33,19 @@ func main() {
 	lambda.Start(handler)
 }
 
-func handler(ctx context.Context, event protocol.ViolationEmail) (protocol.GeneralResponse, error) {
+func handler(ctx context.Context, event protocol.ViolationEvent) (protocol.GeneralResponse, error) {
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String(config.AWSRegion)},
 	)
 
 	svc := ses.New(sess)
 
-	if event.AnonymousId == "" {
-		event.AnonymousId = "N/A"
+	if event.CheckInEvent.AnonymousId == "" {
+		event.CheckInEvent.AnonymousId = "N/A"
 	}
 
 	var siteInfo []byte
-	if siteInfo, err = json.Marshal(event.Site); err != nil {
+	if siteInfo, err = json.Marshal(event.CheckInEvent); err != nil {
 		siteInfo = []byte{}
 	}
 
@@ -53,14 +53,14 @@ func handler(ctx context.Context, event protocol.ViolationEmail) (protocol.Gener
 		Destination: &ses.Destination{
 			CcAddresses: []*string{},
 			ToAddresses: []*string{
-				aws.String(event.Recipient),
+				aws.String(event.Region.Email),
 			},
 		},
 		Message: &ses.Message{
 			Body: &ses.Body{
 				Html: &ses.Content{
 					Charset: aws.String(CharSet),
-					Data:    aws.String(fmt.Sprintf(HtmlBody, string(siteInfo), event.AnonymousId, event.Reason)),
+					Data:    aws.String(fmt.Sprintf(HtmlBody, string(siteInfo), event.CheckInEvent.AnonymousId, event.GeneralResponse.Msg)),
 				},
 				Text: &ses.Content{
 					Charset: aws.String(CharSet),
@@ -81,7 +81,7 @@ func handler(ctx context.Context, event protocol.ViolationEmail) (protocol.Gener
 		return protocol.GeneralResponse{Code: config.CodeNotificationSendEmailError, Msg: fmt.Sprintf("email send error: %s", err.Error())}, nil
 	}
 
-	log.Println(fmt.Sprintf("email sent to address: %s, msg id: %s", event.Recipient, *result.MessageId))
+	log.Println(fmt.Sprintf("email sent to address: %s, msg id: %s", event.Region.Email, *result.MessageId))
 	log.Println(result)
-	return protocol.GeneralResponse{Code: config.CodeOK, Msg: fmt.Sprintf("email sent to %s", event.Recipient)}, nil
+	return protocol.GeneralResponse{Code: config.CodeOK, Msg: fmt.Sprintf("email sent to %s", event.Region.Email)}, nil
 }

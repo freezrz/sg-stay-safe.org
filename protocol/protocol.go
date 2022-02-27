@@ -13,7 +13,9 @@ type GeneralResponse struct {
 
 type ViolationEvent struct {
 	CheckInEvent    CheckInEvent
+	Site            Site
 	GeneralResponse GeneralResponse
+	Region          Region
 }
 
 type CheckInResponse struct {
@@ -63,4 +65,10 @@ type User struct {
 	AnonymousId string `json:"anonymous_id"`
 	Description string `json:"description"`
 	ShouldBan   bool   `json:"should_ban"`
+}
+
+type Region struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Email       string `json:"email"`
 }
