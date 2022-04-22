@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      golang: 1.17
+    commands:
+      - echo "installing dependencies..."
+      - go mod vendor
+  build:
+    commands:
+      - echo "Zipping deployment package..."
+      - cd checkin/anti-fraud
+      - GOOS=linux GOARCH=amd64 go build -o anti-fraud-bin
+      - zip -g deployment_package.zip anti-fraud-bin
+      - mv deployment_package.zip ../../
+  post_build:
+    commands:
+      - echo "Updating lambda Function..."
+      - aws lambda update-function-code --function-name anti_fraud_checkin --zip-file fileb://deployment_package.zip
+      - echo "DONE"
