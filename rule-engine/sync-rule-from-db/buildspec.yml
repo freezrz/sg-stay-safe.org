@@ -1,0 +1,19 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      golang: 1.16
+    commands:
+      - echo "installing dependencies..."
+      - go mod vendor
+  build:
+    commands:
+      - echo "zipping deployment package..."
+      - cd rule-engine/sync-rule-from-db/
+      - GOOS=linux GOARCH=amd64 go build -o sync-rule-from-db-bin
+      - zip -g deployment_package.zip sync-rule-from-db-bin
+  post_build:
+    commands:
+      - echo "updating lambda function..."
+      - aws lambda update-function-code --function-name sync_rule_from_db_rule_engine --zip-file fileb://deployment_package.zip
+      - echo "DONE"
