@@ -1,0 +1,21 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      golang: 1.16
+    commands:
+      - echo "installing dependencies..."
+      - go mod vendor
+  build:
+    commands:
+      - echo "zipping deployment package..."
+      - cd event/producer/
+      - GOOS=linux GOARCH=amd64 go build -o produce-event-bin
+      - zip -g deployment_package.zip produce-event-bin
+  post_build:
+    commands:
+      - echo "updating lambda function..."
+      - aws lambda update-function-code --function-name produce_checkin_event --zip-file fileb://deployment_package.zip
+      - aws lambda update-function-code --function-name produce_user_violation_event --zip-file fileb://deployment_package.zip
+      - aws lambda update-function-code --function-name produce_site_violation_event --zip-file fileb://deployment_package.zip
+      - echo "DONE"
