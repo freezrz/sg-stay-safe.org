@@ -9,11 +9,11 @@ phases:
   build:
     commands:
       - echo "zipping deployment package..."
-      - cd rule-engine/sync-site-from-db/
-      - GOOS=linux GOARCH=amd64 go build -o sync-site-bin
-      - zip -g deployment_package.zip sync-site-bin
+      - cd rule-engine/sync-user-from-db/
+      - GOOS=linux GOARCH=amd64 go build -o sync-user-bin
+      - zip -g deployment_package.zip sync-user-bin
   post_build:
     commands:
       - echo "updating lambda function..."
-      - aws lambda update-function-code --function-name sync_site_from_db_rule_engine --zip-file fileb://deployment_package.zip
+      - aws lambda update-function-code --function-name sync_user_from_db_rule_engine --zip-file fileb://deployment_package.zip
       - echo "DONE"
