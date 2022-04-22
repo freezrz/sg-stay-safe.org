@@ -12,7 +12,6 @@ phases:
       - cd checkin/anti-fraud
       - GOOS=linux GOARCH=amd64 go build -o anti-fraud-bin
       - zip -g deployment_package.zip anti-fraud-bin
-      - mv deployment_package.zip ../../
   post_build:
     commands:
       - echo "Updating lambda Function..."
