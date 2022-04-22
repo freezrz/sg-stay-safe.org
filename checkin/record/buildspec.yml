@@ -9,11 +9,11 @@ phases:
   build:
     commands:
       - echo "zipping deployment package..."
-      - cd checkin/anti-fraud
-      - GOOS=linux GOARCH=amd64 go build -o anti-fraud-bin
-      - zip -g deployment_package.zip anti-fraud-bin
+      - cd checkin/record
+      - GOOS=linux GOARCH=amd64 go build -o record-checkin-bin
+      - zip -g deployment_package.zip record-checkin-bin
   post_build:
     commands:
       - echo "updating lambda function..."
-      - aws lambda update-function-code --function-name anti_fraud_checkin --zip-file fileb://deployment_package.zip
+      - aws lambda update-function-code --function-name record_checkin --zip-file fileb://deployment_package.zip
       - echo "DONE"
