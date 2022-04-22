@@ -2,7 +2,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      golang: 1.17
+      golang: 1.16
     commands:
       - echo "installing dependencies..."
       - go mod vendor
