@@ -16,6 +16,6 @@ phases:
     commands:
       - mkdir deploy/
       - cp bin/application deploy/
-  artifacts:
-    files:
-      - deploy/**/*
+artifacts:
+  files:
+    - deploy/**/*
