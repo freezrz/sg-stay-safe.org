@@ -18,10 +18,9 @@ import (
 func main() {
 	log.Println("checkin in router service...")
 	router := gin.Default()
-	router.LoadHTMLGlob("templates/*")
 
 	router.POST("/", route)
-	router.GET("/welcome", welcome)
+	router.GET("/ping", welcome)
 
 	router.Run(fmt.Sprintf(":%s", config.AWSForwardPort))
 }
@@ -44,7 +43,7 @@ func route(c *gin.Context) {
 
 func welcome(c *gin.Context) {
 	c.JSON(200, gin.H{
-		"Welcome": "Safe Check-in Platform",
+		"pong": "Safe Check-in Platform",
 	})
 }
 
