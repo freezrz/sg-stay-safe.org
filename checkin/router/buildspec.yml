@@ -1,0 +1,21 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      golang: 1.16
+    commands:
+      - echo "installing dependencies..."
+      - go mod vendor
+  build:
+    commands:
+      - echo "zipping deployment package..."
+      - cd checkin/router/
+      - mkdir bin/
+      - GOOS=linux GOARCH=amd64 go build -o bin/application
+  post_build:
+    commands:
+      - mkdir deploy/
+      - cp bin/application deploy/
+  artifacts:
+    files:
+      - deploy/**/*
