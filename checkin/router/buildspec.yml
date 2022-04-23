@@ -15,7 +15,7 @@ phases:
   post_build:
     commands:
       - mkdir deploy/
-      - cp bin/application $CODEBUILD_SRC_DIR/
+      - cp bin/application deploy/
 artifacts:
   files:
-    - application
+    - deploy/application
