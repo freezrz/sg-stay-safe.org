@@ -14,7 +14,7 @@ phases:
       - GOOS=linux GOARCH=amd64 go build -o bin/application
   post_build:
     commands:
-      - mkdir ${CODEBUILD_SRC_DIR}/deploy/bin/
+      - mkdir -p ${CODEBUILD_SRC_DIR}/deploy/bin/
       - cp bin/application ${CODEBUILD_SRC_DIR}/deploy/bin/
 artifacts:
   files:
