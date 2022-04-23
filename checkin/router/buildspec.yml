@@ -18,4 +18,4 @@ phases:
       - cp bin/application deploy/
 artifacts:
   files:
-    - deploy/application
+    - deploy/*
