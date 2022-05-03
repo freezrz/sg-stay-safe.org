@@ -37,7 +37,7 @@ func Test_checkin_sanitiser_site_id_is_empty_only(t *testing.T) {
 
 	var actualResp protocol.CheckInResponse
 	req.Send(&actualResp)
-	assert.Equal(t, config.CodeSanitiseError, actualResp.Code)
+	assert.Equal(t, 7459759354958, actualResp.Code)
 }
 
 func Test_checkin_sanitiser_corrupted_request(t *testing.T) {
