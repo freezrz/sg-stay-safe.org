@@ -1,5 +1,5 @@
 # sg-stay-safe.org - software solution architecting practice module
-sg-stay-safe.org v.0.0.0 - Init Release
+sg-stay-safe.org v.0.0.0 - Official Release
 
 Implemented:
 * CRUD admin portal for user, site, safe ambassador, region, rule
