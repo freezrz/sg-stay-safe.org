@@ -1,0 +1,19 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      golang: 1.16
+    commands:
+      - echo "installing dependencies..."
+      - go mod vendor
+  build:
+    commands:
+      - echo "zipping deployment package..."
+      - cd notification/email/
+      - GOOS=linux GOARCH=amd64 go build -o send-email-bin
+      - zip -g deployment_package.zip send-email-bin
+  post_build:
+    commands:
+      - echo "updating lambda function..."
+      - aws lambda update-function-code --function-name live_send_email_notification --zip-file fileb://deployment_package.zip
+      - echo "DONE"
