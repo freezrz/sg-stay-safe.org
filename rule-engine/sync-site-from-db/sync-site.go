@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-lambda-go/lambda"
 	"log"
+	"os"
 	"sg-stay-safe.org/config"
 	"sg-stay-safe.org/pkg/cache"
 	"sg-stay-safe.org/pkg/db"
@@ -47,7 +48,7 @@ func retrieve() (sites []protocol.Site) {
 }
 
 func updateCache(sites []protocol.Site) {
-	redisCli := cache.New(config.BanCache)
+	redisCli := cache.New(os.Getenv("BanCache"))
 	for _, site := range sites {
 		if err := redisCli.Set(fmt.Sprintf(config.BanSiteFormat, site.SiteId), "1", 24*60+60); err != nil { // let it expire after 24+1hours so no need to do daily cleanup
 			log.Println(err.Error()) // TODO: enhance it with alert metrics

@@ -20,10 +20,11 @@ const (
 	RetrieveRegionEmailBySiteIdLambda = "retrieve_region_email_by_siteid_query_service"
 	SendEmailLambda                   = "send_email_notification"
 
-	BanCache         = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
-	CheckInSiteCache = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
-	AntiFraudCache   = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
-	RuleCache        = "check-in-cache.vekkvr.0001.apse1.cache.amazonaws.com:6379"
+	// move the config to AWS - Lambda environment variables
+	BanCache         = ""
+	CheckInSiteCache = ""
+	AntiFraudCache   = ""
+	RuleCache        = ""
 
 	BanSiteFormat = "ban-site-%s"
 	BanUserFormat = "ban-user-%s"
@@ -36,11 +37,12 @@ const (
 	UserVisitSiteHistoryFormat    = "user-%s-site-%s"
 	User24HoursCheckinCountFormat = "user-24hrs-%s"
 
-	CheckinEventKafkaZooKeeper = "z-1.checkin-msk-clust.xhf5xv.c2.kafka.ap-southeast-1.amazonaws.com:2181" // for consumer
-	CheckinEventKafkaBootstrap = "b-1.checkin-msk-clust.xhf5xv.c2.kafka.ap-southeast-1.amazonaws.com:9092" // for producer
-	CheckinEventKafkaTopic     = "checkin-msk-topic"
-	UserViolationKafkaTopic    = "user-violation-msk-topic"
-	SiteViolationKafkaTopic    = "site-violation-msk-topic"
+	// move the config to AWS - Lambda environment variables
+	CheckinEventKafkaZooKeeper = "" // for consumer
+	CheckinEventKafkaBootstrap = "" // for producer
+	CheckinEventKafkaTopic     = ""
+	UserViolationKafkaTopic    = ""
+	SiteViolationKafkaTopic    = ""
 
 	CodeOK                  = 0
 	CodeServerInternalError = 502

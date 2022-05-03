@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-lambda-go/lambda"
 	"log"
+	"os"
 	"sg-stay-safe.org/config"
 	"sg-stay-safe.org/pkg/cache"
 	"sg-stay-safe.org/protocol"
@@ -20,7 +21,7 @@ func Handler(ctx context.Context, event protocol.CheckInEvent) (protocol.General
 	fmt.Println("verify-rules invoked")
 
 	// check ban
-	banCli := cache.New(config.BanCache)
+	banCli := cache.New(os.Getenv("BanCache"))
 
 	isSiteBan, err := banCli.Get(fmt.Sprintf(config.BanSiteFormat, event.SiteId))
 	if err != nil {
@@ -40,7 +41,7 @@ func Handler(ctx context.Context, event protocol.CheckInEvent) (protocol.General
 
 	// check rule
 	rule := protocol.Rule{}
-	ruleCli := cache.New(config.RuleCache)
+	ruleCli := cache.New(os.Getenv("RuleCache"))
 
 	maxDailyCacheValue, err := ruleCli.Get(config.RuleMaxDailyCheckin)
 	if err != nil {
