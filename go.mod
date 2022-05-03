@@ -15,4 +15,5 @@ require (
 	github.com/stretchr/testify v1.7.0
 	github.com/wvanbergen/kafka v0.0.0-20171203153745-e2edea948ddf
 	github.com/wvanbergen/kazoo-go v0.0.0-20180202103751-f72d8611297a // indirect
+	golang.org/x/tools v0.0.0-20201224043029-2b0845dc783e
 )
