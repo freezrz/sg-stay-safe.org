@@ -1,5 +1,10 @@
 package config
 
+import (
+	"fmt"
+	"os"
+)
+
 const (
 	Region        = "SG"
 	CacheDuration = 30 // min
@@ -9,16 +14,6 @@ const (
 	AWSForwardPort    = "5000"
 	AWSRegion         = "ap-southeast-1"
 	SystemEmailSender = "sg.stay.safe.org@gmail.com"
-
-	SanitiseCheckinLambda             = "sanitise_checkin"
-	AntiFraudCheckinLambda            = "anti_fraud_checkin"
-	RecordCheckinLambda               = "record_checkin"
-	ProduceCheckinMsgLambda           = "produce_checkin_event"
-	ProduceUserViolationMsgLambda     = "produce_user_violation_event"
-	ProduceSiteViolationMsgLambda     = "produce_site_violation_event"
-	VerifyRulesLambda                 = "verify_rules"
-	RetrieveRegionEmailBySiteIdLambda = "retrieve_region_email_by_siteid_query_service"
-	SendEmailLambda                   = "send_email_notification"
 
 	// move the config to AWS - Lambda environment variables
 	BanCache         = ""
@@ -71,4 +66,17 @@ const (
 	CodeSiteBannedCacheError           = 452002
 
 	CodeNotificationSendEmailError = 500001
+)
+
+var (
+	env                               = os.Getenv("ENV")
+	SanitiseCheckinLambda             = fmt.Sprintf("%s%s", env, "sanitise_checkin")
+	AntiFraudCheckinLambda            = fmt.Sprintf("%s%s", env, "anti_fraud_checkin")
+	RecordCheckinLambda               = fmt.Sprintf("%s%s", env, "record_checkin")
+	ProduceCheckinMsgLambda           = fmt.Sprintf("%s%s", env, "produce_checkin_event")
+	ProduceUserViolationMsgLambda     = fmt.Sprintf("%s%s", env, "produce_user_violation_event")
+	ProduceSiteViolationMsgLambda     = fmt.Sprintf("%s%s", env, "produce_site_violation_event")
+	VerifyRulesLambda                 = fmt.Sprintf("%s%s", env, "verify_rules")
+	RetrieveRegionEmailBySiteIdLambda = fmt.Sprintf("%s%s", env, "retrieve_region_email_by_siteid_query_service")
+	SendEmailLambda                   = fmt.Sprintf("%s%s", env, "send_email_notification")
 )
