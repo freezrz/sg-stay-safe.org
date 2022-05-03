@@ -21,7 +21,7 @@ func Handler(ctx context.Context, event protocol.CheckInEvent) (protocol.General
 	redisCli := cache.New(os.Getenv("AntiFraudCache"))
 	visited, err := redisCli.Get(fmt.Sprintf(config.UserVisitSiteHistoryFormat, event.AnonymousId, event.SiteId))
 	if visited != "" {
-		return protocol.GeneralResponse{Code: config.CodeAntiFraudEventError, Msg: fmt.Sprintf("you have checked in this site in %d min(s)... v1", config.UserVisitSiteIntervalTimeDuration)}, err
+		return protocol.GeneralResponse{Code: config.CodeAntiFraudEventError, Msg: fmt.Sprintf("you have checked in this site in %d min(s)...", config.UserVisitSiteIntervalTimeDuration)}, err
 	}
 	if err != nil {
 		log.Println(err.Error())
