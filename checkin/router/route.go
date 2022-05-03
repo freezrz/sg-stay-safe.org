@@ -95,7 +95,7 @@ func serverError(c *gin.Context, errorCode int, err error) {
 		Code: errorCode,
 		Msg:  err.Error(),
 	}
-	c.JSON(http.StatusInternalServerError, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 func clientError(c *gin.Context, errorCode int, err error) {
