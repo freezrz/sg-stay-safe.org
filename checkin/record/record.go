@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-lambda-go/lambda"
 	"log"
+	"os"
 	"sg-stay-safe.org/config"
 	"sg-stay-safe.org/pkg/cache"
 	convert "sg-stay-safe.org/pkg/time"
@@ -19,7 +20,7 @@ func main() {
 func Handler(ctx context.Context, event protocol.CheckInEvent) (protocol.GeneralResponse, error) {
 	log.Println("record checkin invoked")
 
-	checkinCli := cache.New(config.CheckInSiteCache)
+	checkinCli := cache.New(os.Getenv("CheckInSiteCache"))
 	t := convert.CleanTime(config.Region, time.Now().Unix(), time.Minute*config.CacheDuration)
 	if err := checkinCli.Incr(fmt.Sprintf(config.SiteCountFormat, t, event.SiteId), config.CacheDuration); err != nil {
 		log.Println(err.Error())
@@ -27,7 +28,7 @@ func Handler(ctx context.Context, event protocol.CheckInEvent) (protocol.General
 
 	}
 
-	antiFraudCli := cache.New(config.AntiFraudCache)
+	antiFraudCli := cache.New(os.Getenv("AntiFraudCache"))
 	t = convert.CleanTime(config.Region, time.Now().Unix(), time.Minute*config.UserVisitSiteIntervalTimeDuration)
 	// if 1, means the user visits this site in 5mins
 	if err := antiFraudCli.Set(fmt.Sprintf(config.UserVisitSiteHistoryFormat, event.AnonymousId, event.SiteId), "1", config.UserVisitSiteIntervalTimeDuration); err != nil {
@@ -35,7 +36,7 @@ func Handler(ctx context.Context, event protocol.CheckInEvent) (protocol.General
 		return protocol.GeneralResponse{Code: config.CodeRecordUserVisitSiteEventError, Msg: "record checkin fail..."}, err
 	}
 
-	banCli := cache.New(config.BanCache)
+	banCli := cache.New(os.Getenv("BanCache"))
 	if err := banCli.Incr(fmt.Sprintf(config.User24HoursCheckinCountFormat, event.AnonymousId), 24*60); err != nil { // 24hours
 		log.Println(err.Error())
 		return protocol.GeneralResponse{Code: config.CodeIncrUser24hrsCheckinError, Msg: "increase user 24hrs checkin number fail..."}, err

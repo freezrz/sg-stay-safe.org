@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-lambda-go/lambda"
 	"log"
+	"os"
 	"sg-stay-safe.org/config"
 	"sg-stay-safe.org/pkg/cache"
 	"sg-stay-safe.org/pkg/db"
@@ -49,7 +50,7 @@ func retrieve() (rules []protocol.Rule) {
 }
 
 func updateCache(rules []protocol.Rule) {
-	redisCli := cache.New(config.RuleCache)
+	redisCli := cache.New(os.Getenv("RuleCache"))
 	// redisCli.Del(config.RulePrefix + "*") // del all first
 	for _, rule := range rules {
 		value, _ := json.Marshal(rule)

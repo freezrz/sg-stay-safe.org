@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-lambda-go/lambda"
 	"log"
+	"os"
 	"sg-stay-safe.org/config"
 	"sg-stay-safe.org/pkg/cache"
 	"sg-stay-safe.org/protocol"
@@ -17,7 +18,7 @@ func main() {
 func Handler(ctx context.Context, event protocol.CheckInEvent) (protocol.GeneralResponse, error) {
 	log.Println("anti-fraud checkin invoked")
 
-	redisCli := cache.New(config.AntiFraudCache)
+	redisCli := cache.New(os.Getenv("AntiFraudCache"))
 	visited, err := redisCli.Get(fmt.Sprintf(config.UserVisitSiteHistoryFormat, event.AnonymousId, event.SiteId))
 	if visited != "" {
 		return protocol.GeneralResponse{Code: config.CodeAntiFraudEventError, Msg: fmt.Sprintf("you have checked in this site in %d min(s)...", config.UserVisitSiteIntervalTimeDuration)}, err
