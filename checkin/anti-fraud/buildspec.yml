@@ -16,8 +16,8 @@ phases:
       - go mod vendor
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
       - unzip ./sonar-scanner-cli-3.3.0.1492-linux.zip
-      - export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
-      - ln -sv /usr/local/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
+      - export PATH=$PATH:./sonar-scanner-3.3.0.1492-linux/bin/
+      # - ln -sv /usr/local/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
   build:
     commands:
       - echo "zipping deployment package..."
