@@ -20,7 +20,7 @@ phases:
   build:
     commands:
       - echo "zipping deployment package..."
-      - sonar-scanner -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
+      - sonar-scanner -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.sources=. -Dsonar.organization=$Organization
       - sleep 5
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
       - cat result.json
@@ -31,5 +31,9 @@ phases:
   post_build:
     commands:
       - echo "updating lambda function..."
-      - aws lambda update-function-code --function-name anti_fraud_checkin --zip-file fileb://deployment_package.zip
+      # - aws lambda update-function-code --function-name anti_fraud_checkin --zip-file fileb://deployment_package.zip
+      - mv checkin/anti-fraud/anti-fraud-bin.zip anti-fraud-bin.zip
       - echo "DONE"
+artifacts:
+  files:
+    - anti-fraud-bin.zip
