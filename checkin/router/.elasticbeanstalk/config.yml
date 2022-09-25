@@ -1,11 +1,11 @@
 branch-defaults:
   default:
-    environment: router-dev
+    environment: null
     group_suffix: null
 global:
-  application_name: router
+  application_name: router2
   branch: null
-  default_ec2_keyname: aws-eb
+  default_ec2_keyname: elb-router
   default_platform: Go 1 running on 64bit Amazon Linux 2
   default_region: ap-southeast-1
   include_git_submodules: true
