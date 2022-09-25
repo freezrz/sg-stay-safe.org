@@ -9,6 +9,7 @@ phases:
   install:
     runtime-versions:
       golang: 1.14
+      java: corretto11
     commands:
       - echo "installing dependencies..."
       - apt-get update
