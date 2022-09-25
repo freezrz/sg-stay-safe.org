@@ -20,16 +20,16 @@ phases:
   build:
     commands:
       - echo "zipping deployment package..."
+      - sonar-scanner -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
+      - sleep 5
+      - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
+      - cat result.json
+      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
       - cd checkin/anti-fraud/
       - GOOS=linux GOARCH=amd64 go build -o anti-fraud-bin
       - zip -g deployment_package.zip anti-fraud-bin
   post_build:
     commands:
       - echo "updating lambda function..."
-      - sonar-scanner -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
-      - sleep 5
-      - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
-      - cat result.json
-      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
       - aws lambda update-function-code --function-name anti_fraud_checkin --zip-file fileb://deployment_package.zip
       - echo "DONE"
