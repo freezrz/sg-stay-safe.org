@@ -34,8 +34,8 @@ phases:
     commands:
       - echo "updating lambda function..."
       # - aws lambda update-function-code --function-name anti_fraud_checkin --zip-file fileb://deployment_package.zip
-      # - cd ../../
-      # - mv checkin/anti-fraud/anti-fraud-bin.zip anti-fraud-bin.zip
+      - cd ../../
+      - mv checkin/anti-fraud/anti-fraud-bin.zip anti-fraud-bin.zip
       - ls -l
       - echo "DONE"
 artifacts:
