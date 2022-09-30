@@ -26,7 +26,7 @@ phases:
       - sleep 5
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
       - cat result.json
-      - if [ $(jq -r '.projectStatus.status' result.json) = OK ];then export CODEBUILD_BUILD_SUCCEEDING=0;fi
+      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ];then export CODEBUILD_BUILD_SUCCEEDING=0;fi
       - cd checkin/anti-fraud/
       - GOOS=linux GOARCH=amd64 go build -o anti-fraud-bin
       - zip -g anti-fraud-bin.zip anti-fraud-bin
@@ -36,6 +36,7 @@ phases:
       # - aws lambda update-function-code --function-name anti_fraud_checkin --zip-file fileb://deployment_package.zip
       - cd ../../
       - mv checkin/anti-fraud/anti-fraud-bin.zip anti-fraud-bin.zip
+      - ls -l
       - echo "DONE"
 artifacts:
   files:
