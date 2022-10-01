@@ -34,7 +34,8 @@ phases:
       - cd ../../
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
       - cat result.json
-      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then export CODEBUILD_BUILD_SUCCEEDING=0 aws codebuild stop-build --id ${CODEBUILD_BUILD_ID};fi
+      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then export CODEBUILD_BUILD_SUCCEEDING=0 
+      - aws codebuild stop-build --id ${CODEBUILD_BUILD_ID};fi
       - mv checkin/anti-fraud/anti-fraud-bin.zip anti-fraud-bin.zip
       - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ] ; then aws lambda update-function-code --function-name anti_fraud_checkin --zip-file fileb://anti-fraud-bin.zip; fi
       # - ls -l
