@@ -41,4 +41,4 @@ phases:
       - echo "DONE"
 artifacts:
   files:
-    - 'anti-fraud-bin.zip'
+    - anti-fraud-bin.zip
