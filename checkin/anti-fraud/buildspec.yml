@@ -31,7 +31,7 @@ phases:
   post_build:
     commands:
       - echo "updating lambda function..."
-      # - aws lambda update-function-code --function-name anti_fraud_checkin --zip-file fileb://deployment_package.zip
+      - aws lambda update-function-code --function-name anti_fraud_checkin --zip-file fileb://anti-fraud-bin.zip
       - cd ../../
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
       - cat result.json
