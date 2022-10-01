@@ -40,7 +40,5 @@ phases:
       - ls -l
       - echo "DONE"
 artifacts:
-  secondary-artifacts:
-    artifact1:
-      files:
-        - anti-fraud-bin.zip
+  files:
+    - 'anti-fraud-bin.zip'
