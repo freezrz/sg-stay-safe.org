@@ -24,7 +24,6 @@ phases:
       - echo "zipping deployment package..."
       - sonar-scanner -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.sources=. -Dsonar.organization=$Organization -Dsonar.c.file.suffixes=- -Dsonar.cpp.file.suffixes=- -Dsonar.objc.file.suffixes=-
       - sleep 5
-      # - env
       - cd checkin/anti-fraud/
       - GOOS=linux GOARCH=amd64 go build -o anti-fraud-bin
       - zip -g anti-fraud-bin.zip anti-fraud-bin
