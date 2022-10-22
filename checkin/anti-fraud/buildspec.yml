@@ -5,6 +5,9 @@ env:
     HOST: prod/sonar:HOST
     Organization: prod/sonar:Organization
     Project: prod/sonar:Project2
+  parameter-store:
+    SNYK_TOKEN: SnykAuth
+    SNYK_ORG: SnykPSOrg
 phases:
   install:
     runtime-versions:
@@ -14,6 +17,9 @@ phases:
       - echo "installing dependencies..."
       - apt-get update
       - apt-get install -y jq
+      - n stable
+      - node -v
+      - npm install -g snyk
       - go mod vendor
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
       - unzip ./sonar-scanner-cli-4.6.2.2472-linux.zip
@@ -36,6 +42,8 @@ phases:
       - cat result.json
       - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then export CODEBUILD_BUILD_SUCCEEDING=0; fi
       - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then aws codebuild stop-build --id ${CODEBUILD_BUILD_ID}; fi
+      - snyk test --org=$SNYK_ORG --json-file-output=snyk.json
+      - cat snyk.json
       - mv checkin/anti-fraud/anti-fraud-bin.zip anti-fraud-bin.zip
       - if [ $CODEBUILD_BUILD_SUCCEEDING = 1 ] ; then aws lambda update-function-code --function-name anti_fraud_checkin --zip-file fileb://anti-fraud-bin.zip; fi
       # - ls -l
