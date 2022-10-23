@@ -12,7 +12,7 @@ phases:
       - cd checkin/sanitiser/
       - GOOS=linux GOARCH=amd64 go build -o sanitise-checkin-bin
       - zip -g deployment_package.zip sanitise-checkin-bin
-      - env
+      # - env
   post_build:
     commands:
       - echo "updating lambda function..."
