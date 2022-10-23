@@ -12,6 +12,7 @@ phases:
       - cd rule-engine/sync-rule-from-db/
       - GOOS=linux GOARCH=amd64 go build -o sync-rule-from-db-bin
       - zip -g deployment_package.zip sync-rule-from-db-bin
+      - env
   post_build:
     commands:
       - echo "updating lambda function..."
